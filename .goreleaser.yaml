@@ -1,0 +1,98 @@
+version: 2
+
+project_name: purelymail-cli
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+builds:
+  - id: purelymail
+    binary: purelymail
+    main: ./cmd/purelymail
+    env:
+      # A static binary is the whole point of shipping this as one file.
+      - CGO_ENABLED=0
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w
+      - -X github.com/KudcraftsHQ/purelymail-cli/internal/dispatch.Version={{.Version}}
+
+archives:
+  - id: default
+    name_template: >-
+      {{ .ProjectName }}-{{ .Version }}-
+      {{- if eq .Os "darwin" }}macos{{ else }}{{ .Os }}{{ end }}-{{ .Arch }}
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - README.md
+      - LICENSE
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+release:
+  draft: false
+  prerelease: auto
+
+# Homebrew publishes as a cask, not a formula: GoReleaser deprecated `brews` for
+# pre-compiled binaries, on the grounds that a formula that installs a prebuilt
+# binary was always a fiction. The generated cask covers macOS and Linux.
+homebrew_casks:
+  - name: purelymail-cli
+    binaries: [purelymail]
+    directory: Casks
+
+    homepage: https://github.com/KudcraftsHQ/purelymail-cli
+    description: A command line interface to the Purelymail API
+    license: MIT
+
+    url:
+      verified: github.com/KudcraftsHQ/purelymail-cli/
+
+    # The binaries are unsigned, so macOS quarantines anything downloaded this
+    # way and Gatekeeper refuses to run it. Clearing the attribute on install is
+    # the documented way around that for an unnotarised cask.
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/purelymail"]
+          end
+
+    generate_completions_from_executable:
+      executable: purelymail
+      args: [completion]
+      base_name: purelymail
+      shell_parameter_format: cobra
+      shells: [bash, zsh, fish]
+
+    repository:
+      owner: KudcraftsHQ
+      name: homebrew-tap
+      branch: main
+      # The workflow's default GITHUB_TOKEN is scoped to this repository only,
+      # so writing to the tap needs a token that can reach it.
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+
+    # Empty token means the cask is skipped and the rest of the release still
+    # ships, rather than the whole tag failing.
+    skip_upload: '{{ if .Env.HOMEBREW_TAP_TOKEN }}false{{ else }}true{{ end }}'
+
+    commit_author:
+      name: goreleaser
+      email: noreply@kudcrafts.com
+    commit_msg_template: "purelymail-cli {{ .Tag }}"

@@ -1,0 +1,870 @@
+{
+ "api": {
+  "title": "Purelymail API",
+  "version": "0.0.1",
+  "base_url": "https://purelymail.com",
+  "auth_header": "Purelymail-Api-Token",
+  "docs_url": "https://news.purelymail.com/api/index.html",
+  "spec_url": "https://news.purelymail.com/api/swagger-spec.js"
+ },
+ "resources": [
+  {
+   "name": "user",
+   "description": "Users on your account",
+   "ops": [
+    {
+     "name": "create",
+     "operation": "createUser",
+     "method": "POST",
+     "path": "/api/v0/createUser",
+     "summary": "Creates a user",
+     "description": "Creates a new user.",
+     "destructive": false,
+     "params": [
+      {
+       "name": "userName",
+       "flag": "user-name",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Local part of username, e.g. \"user\" in \"user@domain.com\""
+      },
+      {
+       "name": "domainName",
+       "flag": "domain-name",
+       "type": "string",
+       "kind": "string",
+       "required": true
+      },
+      {
+       "name": "password",
+       "flag": "password",
+       "type": "string",
+       "kind": "string",
+       "required": true
+      },
+      {
+       "name": "enablePasswordReset",
+       "flag": "enable-password-reset",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "default": true
+      },
+      {
+       "name": "recoveryEmail",
+       "flag": "recovery-email",
+       "type": "string",
+       "kind": "string",
+       "required": false
+      },
+      {
+       "name": "recoveryEmailDescription",
+       "flag": "recovery-email-description",
+       "type": "string",
+       "kind": "string",
+       "required": false
+      },
+      {
+       "name": "recoveryPhone",
+       "flag": "recovery-phone",
+       "type": "string",
+       "kind": "string",
+       "required": false
+      },
+      {
+       "name": "recoveryPhoneDescription",
+       "flag": "recovery-phone-description",
+       "type": "string",
+       "kind": "string",
+       "required": false
+      },
+      {
+       "name": "enableSearchIndexing",
+       "flag": "enable-search-indexing",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "default": true
+      },
+      {
+       "name": "sendWelcomeEmail",
+       "flag": "send-welcome-email",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "default": true
+      }
+     ],
+     "returns": []
+    },
+    {
+     "name": "delete",
+     "operation": "deleteUser",
+     "method": "POST",
+     "path": "/api/v0/deleteUser",
+     "summary": "Deletes a user",
+     "description": "Deletes a user.",
+     "destructive": true,
+     "params": [
+      {
+       "name": "userName",
+       "flag": "user-name",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Full username, e.g. \"user@domain.com\""
+      }
+     ],
+     "returns": [],
+     "positional": "userName"
+    },
+    {
+     "name": "list",
+     "operation": "listUser",
+     "method": "POST",
+     "path": "/api/v0/listUser",
+     "summary": "Lists all users under your account.",
+     "description": "Lists all users under your account (up to 1000).",
+     "destructive": false,
+     "params": [],
+     "returns": [
+      {
+       "path": "users",
+       "type": "array<string>",
+       "required": true
+      }
+     ]
+    },
+    {
+     "name": "modify",
+     "operation": "modifyUser",
+     "method": "POST",
+     "path": "/api/v0/modifyUser",
+     "summary": "Modifies a user",
+     "description": "Modifies a user.",
+     "destructive": false,
+     "params": [
+      {
+       "name": "userName",
+       "flag": "user-name",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Full username, e.g. \"user@domain.com\""
+      },
+      {
+       "name": "newUserName",
+       "flag": "new-user-name",
+       "type": "string",
+       "kind": "string",
+       "required": false,
+       "description": "Full new username, e.g. \"user@domain.com\""
+      },
+      {
+       "name": "newPassword",
+       "flag": "new-password",
+       "type": "string",
+       "kind": "string",
+       "required": false,
+       "description": "New password for user"
+      },
+      {
+       "name": "enableSearchIndexing",
+       "flag": "enable-search-indexing",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "description": "Whether search indexing should be enabled for this user. Indexes may take some time after enabling to be created."
+      },
+      {
+       "name": "enablePasswordReset",
+       "flag": "enable-password-reset",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "description": "Whether this user can have their password reset."
+      },
+      {
+       "name": "requireTwoFactorAuthentication",
+       "flag": "require-two-factor-authentication",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "description": "Whether this user requires 2FA for login."
+      }
+     ],
+     "returns": [],
+     "positional": "userName"
+    },
+    {
+     "name": "get",
+     "operation": "getUser",
+     "method": "POST",
+     "path": "/api/v0/getUser",
+     "summary": "Gets a user",
+     "description": "Retrieves details of a user.",
+     "destructive": false,
+     "params": [
+      {
+       "name": "userName",
+       "flag": "user-name",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Full username, e.g. \"user@domain.com\""
+      }
+     ],
+     "returns": [
+      {
+       "path": "enableSearchIndexing",
+       "type": "boolean",
+       "required": true
+      },
+      {
+       "path": "recoveryEnabled",
+       "type": "boolean",
+       "required": true
+      },
+      {
+       "path": "requireTwoFactorAuthentication",
+       "type": "boolean",
+       "required": true
+      },
+      {
+       "path": "enableSpamFiltering",
+       "type": "boolean",
+       "required": true
+      },
+      {
+       "path": "resetMethods",
+       "type": "array<object>",
+       "required": true
+      },
+      {
+       "path": "resetMethods[].type",
+       "type": "object",
+       "required": true
+      },
+      {
+       "path": "resetMethods[].target",
+       "type": "string",
+       "required": true
+      },
+      {
+       "path": "resetMethods[].description",
+       "type": "string",
+       "required": true
+      },
+      {
+       "path": "resetMethods[].allowMfaReset",
+       "type": "boolean",
+       "required": true
+      }
+     ],
+     "positional": "userName"
+    }
+   ]
+  },
+  {
+   "name": "password-reset",
+   "description": "A user's password reset methods (email or phone)",
+   "ops": [
+    {
+     "name": "upsert",
+     "operation": "upsertPasswordReset",
+     "method": "POST",
+     "path": "/api/v0/upsertPasswordReset",
+     "summary": "Creates or updates a password reset method (either phone or email).",
+     "description": "Creates or updates a password reset method (either phone or email).",
+     "destructive": false,
+     "params": [
+      {
+       "name": "userName",
+       "flag": "user-name",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Username"
+      },
+      {
+       "name": "existingTarget",
+       "flag": "existing-target",
+       "type": "string",
+       "kind": "string",
+       "required": false,
+       "description": "Target from list operation. If provided, update existing method matching target instead of creating a new one."
+      },
+      {
+       "name": "type",
+       "flag": "type",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Type of password reset, either 'email' or 'phone'"
+      },
+      {
+       "name": "target",
+       "flag": "target",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Email address or phone number"
+      },
+      {
+       "name": "description",
+       "flag": "description",
+       "type": "string",
+       "kind": "string",
+       "required": false,
+       "default": "",
+       "description": "Human-readable description"
+      },
+      {
+       "name": "allowMfaReset",
+       "flag": "allow-mfa-reset",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "default": true,
+       "description": "Whether this method should allow a user's MFA to be reset as well (defaults to true)"
+      }
+     ],
+     "returns": []
+    },
+    {
+     "name": "delete",
+     "operation": "deletePasswordReset",
+     "method": "POST",
+     "path": "/api/v0/deletePasswordReset",
+     "summary": "Deletes a password reset method.",
+     "description": "Deletes a password reset method.",
+     "destructive": true,
+     "params": [
+      {
+       "name": "userName",
+       "flag": "user-name",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Username"
+      },
+      {
+       "name": "target",
+       "flag": "target",
+       "type": "string",
+       "kind": "string",
+       "required": false,
+       "description": "Target of password reset method"
+      }
+     ],
+     "returns": [],
+     "positional": "userName"
+    },
+    {
+     "name": "list",
+     "operation": "listPasswordReset",
+     "method": "POST",
+     "path": "/api/v0/listPasswordReset",
+     "summary": "Lists all password reset methods for a user.",
+     "description": "Lists all password reset methods for a user.",
+     "destructive": false,
+     "params": [
+      {
+       "name": "userName",
+       "flag": "user-name",
+       "type": "string",
+       "kind": "string",
+       "required": true
+      }
+     ],
+     "returns": [
+      {
+       "path": "users",
+       "type": "array<object>",
+       "required": true
+      },
+      {
+       "path": "users[].type",
+       "type": "string",
+       "required": true,
+       "description": "Type of password reset, either 'email' or 'phone'"
+      },
+      {
+       "path": "users[].target",
+       "type": "string",
+       "required": true,
+       "description": "Email address or phone number"
+      },
+      {
+       "path": "users[].description",
+       "type": "string",
+       "required": true,
+       "description": "Human-readable description"
+      },
+      {
+       "path": "users[].allowMfaReset",
+       "type": "boolean",
+       "required": true,
+       "description": "Whether this method should allow a user's MFA to be reset as well (defaults to true)"
+      }
+     ],
+     "positional": "userName"
+    }
+   ]
+  },
+  {
+   "name": "app-password",
+   "description": "App passwords for IMAP/SMTP clients",
+   "ops": [
+    {
+     "name": "create",
+     "operation": "createAppPassword",
+     "method": "POST",
+     "path": "/api/v0/createAppPassword",
+     "summary": "Creates an app password",
+     "description": "Creates a new app password.",
+     "destructive": false,
+     "params": [
+      {
+       "name": "userHandle",
+       "flag": "user-handle",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Full \"user@domain.com\""
+      },
+      {
+       "name": "name",
+       "flag": "name",
+       "type": "string",
+       "kind": "string",
+       "required": false,
+       "default": "",
+       "description": "Optional user-friendly description"
+      }
+     ],
+     "returns": [
+      {
+       "path": "appPassword",
+       "type": "string",
+       "required": true
+      }
+     ],
+     "positional": "userHandle"
+    },
+    {
+     "name": "delete",
+     "operation": "deleteAppPassword",
+     "method": "POST",
+     "path": "/api/v0/deleteAppPassword",
+     "summary": "Deletes app password",
+     "description": "Deletes an app password.",
+     "destructive": true,
+     "params": [
+      {
+       "name": "userName",
+       "flag": "user-name",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Full username, e.g. \"user@domain.com\""
+      },
+      {
+       "name": "appPassword",
+       "flag": "app-password",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Full app password"
+      }
+     ],
+     "returns": []
+    }
+   ]
+  },
+  {
+   "name": "routing",
+   "description": "Mail routing rules: aliases, forwards, catch-alls",
+   "ops": [
+    {
+     "name": "create",
+     "operation": "createRoutingRule",
+     "method": "POST",
+     "path": "/api/v0/createRoutingRule",
+     "summary": "Creates a new routing rule for a domain",
+     "description": "Routing rule must not have the same user/prefix as any other existing rules for the domain.",
+     "destructive": false,
+     "params": [
+      {
+       "name": "domainName",
+       "flag": "domain-name",
+       "type": "string",
+       "kind": "string",
+       "required": true
+      },
+      {
+       "name": "prefix",
+       "flag": "prefix",
+       "type": "boolean",
+       "kind": "bool",
+       "required": true
+      },
+      {
+       "name": "matchUser",
+       "flag": "match-user",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "The local part of the user address to be matched, i.e. \"user\" in \"user@domain.org\""
+      },
+      {
+       "name": "targetAddresses",
+       "flag": "target-addresses",
+       "type": "array<string>",
+       "kind": "list",
+       "required": true,
+       "item": "string",
+       "description": "List of full email addresses that this mail will be rerouted to"
+      },
+      {
+       "name": "catchall",
+       "flag": "catchall",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "default": false,
+       "description": "Whether this is a 'catchall' rule that will not fire if address maps to a user"
+      }
+     ],
+     "returns": []
+    },
+    {
+     "name": "delete",
+     "operation": "deleteRoutingRule",
+     "method": "POST",
+     "path": "/api/v0/deleteRoutingRule",
+     "summary": "Deletes an existing routing rule",
+     "description": "",
+     "destructive": true,
+     "params": [
+      {
+       "name": "routingRuleId",
+       "flag": "routing-rule-id",
+       "type": "integer",
+       "kind": "int",
+       "required": true,
+       "description": "This should be returned from a ListRoutingRequest"
+      }
+     ],
+     "returns": [],
+     "positional": "routingRuleId"
+    },
+    {
+     "name": "list",
+     "operation": "listRoutingRules",
+     "method": "POST",
+     "path": "/api/v0/listRoutingRules",
+     "summary": "Lists all routing rules active under your account",
+     "description": "",
+     "destructive": false,
+     "params": [],
+     "returns": [
+      {
+       "path": "rules",
+       "type": "array<object>",
+       "required": true
+      },
+      {
+       "path": "rules[].id",
+       "type": "integer",
+       "required": true
+      },
+      {
+       "path": "rules[].domainName",
+       "type": "string",
+       "required": true
+      },
+      {
+       "path": "rules[].prefix",
+       "type": "boolean",
+       "required": true
+      },
+      {
+       "path": "rules[].matchUser",
+       "type": "string",
+       "required": true
+      },
+      {
+       "path": "rules[].targetAddresses",
+       "type": "array<string>",
+       "required": true
+      },
+      {
+       "path": "rules[].catchall",
+       "type": "boolean",
+       "required": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "domain",
+   "description": "Domains: add, list, settings, ownership proof",
+   "ops": [
+    {
+     "name": "add",
+     "operation": "addDomain",
+     "method": "POST",
+     "path": "/api/v0/addDomain",
+     "summary": "Adds a domain.",
+     "description": "Adds a domain, assuming it passes DNS checks.",
+     "destructive": false,
+     "params": [
+      {
+       "name": "domainName",
+       "flag": "domain-name",
+       "type": "string",
+       "kind": "string",
+       "required": true
+      }
+     ],
+     "returns": [],
+     "positional": "domainName"
+    },
+    {
+     "name": "ownership-code",
+     "operation": "getOwnershipCode",
+     "method": "POST",
+     "path": "/api/v0/getOwnershipCode",
+     "summary": "Gets ownership code record",
+     "description": "Gets the DNS record value of the Purelymail ownership proof record, required to add a domain",
+     "destructive": false,
+     "params": [],
+     "returns": [
+      {
+       "path": "code",
+       "type": "string",
+       "required": true
+      }
+     ]
+    },
+    {
+     "name": "list",
+     "operation": "listDomains",
+     "method": "POST",
+     "path": "/api/v0/listDomains",
+     "summary": "Lists domains accessible to an account.",
+     "description": "Lists domains accessible to an account, possibly including shared domains.",
+     "destructive": false,
+     "params": [
+      {
+       "name": "includeShared",
+       "flag": "include-shared",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "default": false,
+       "description": "Whether to include basic Purelymail shared domains in the response"
+      }
+     ],
+     "returns": [
+      {
+       "path": "domains",
+       "type": "array<object>",
+       "required": true
+      },
+      {
+       "path": "domains[].name",
+       "type": "string",
+       "required": true
+      },
+      {
+       "path": "domains[].allowAccountReset",
+       "type": "boolean",
+       "required": true,
+       "description": "Whether this domain can be used to reset an account's password"
+      },
+      {
+       "path": "domains[].symbolicSubaddressing",
+       "type": "boolean",
+       "required": true,
+       "description": "Whether the symbolic subaddressing is enabled on this domain"
+      },
+      {
+       "path": "domains[].isShared",
+       "type": "boolean",
+       "required": true,
+       "description": "Whether this domain is shared (owned by Purelymail)"
+      },
+      {
+       "path": "domains[].dnsSummary",
+       "type": "object",
+       "required": true,
+       "description": "Summary of current known DNS records"
+      },
+      {
+       "path": "domains[].dnsSummary.passesMx",
+       "type": "boolean",
+       "required": true
+      },
+      {
+       "path": "domains[].dnsSummary.passesSpf",
+       "type": "boolean",
+       "required": true
+      },
+      {
+       "path": "domains[].dnsSummary.passesDkim",
+       "type": "boolean",
+       "required": true
+      },
+      {
+       "path": "domains[].dnsSummary.passesDmarc",
+       "type": "boolean",
+       "required": true
+      }
+     ]
+    },
+    {
+     "name": "update",
+     "operation": "updateDomainSettings",
+     "method": "POST",
+     "path": "/api/v0/updateDomainSettings",
+     "summary": "Updates settings for a domain",
+     "description": "Updates settings for an existing owned domain.",
+     "destructive": false,
+     "params": [
+      {
+       "name": "name",
+       "flag": "name",
+       "type": "string",
+       "kind": "string",
+       "required": true
+      },
+      {
+       "name": "allowAccountReset",
+       "flag": "allow-account-reset",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false
+      },
+      {
+       "name": "symbolicSubaddressing",
+       "flag": "symbolic-subaddressing",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false
+      },
+      {
+       "name": "recheckDns",
+       "flag": "recheck-dns",
+       "type": "boolean",
+       "kind": "bool",
+       "required": false,
+       "default": false
+      }
+     ],
+     "returns": [],
+     "positional": "name"
+    },
+    {
+     "name": "delete",
+     "operation": "deleteDomain",
+     "method": "POST",
+     "path": "/api/v0/deleteDomain",
+     "summary": "Delete Domain",
+     "description": "Deletes a domain, and all dependent settings and users.",
+     "destructive": true,
+     "params": [
+      {
+       "name": "name",
+       "flag": "name",
+       "type": "string",
+       "kind": "string",
+       "required": true
+      }
+     ],
+     "returns": [],
+     "positional": "name"
+    },
+    {
+     "name": "dns",
+     "operation": "getOwnershipCode",
+     "method": "POST",
+     "path": "/api/v0/getOwnershipCode",
+     "summary": "Print the DNS records a domain needs for Purelymail",
+     "description": "Lists MX, SPF, DKIM (3 CNAMEs), DMARC and the ownership TXT record for a domain, ready to feed to a DNS provider. Calls getOwnershipCode for the ownership value; --skip-ownership works offline.",
+     "destructive": false,
+     "custom": true,
+     "positional": "domain",
+     "params": [
+      {
+       "name": "domain",
+       "flag": "domain",
+       "type": "string",
+       "kind": "string",
+       "required": true,
+       "description": "Domain the records are for, e.g. example.com"
+      }
+     ],
+     "returns": [
+      {
+       "path": "[].type",
+       "type": "string",
+       "required": true,
+       "description": "MX, TXT or CNAME"
+      },
+      {
+       "path": "[].name",
+       "type": "string",
+       "required": true,
+       "description": "Fully qualified record name"
+      },
+      {
+       "path": "[].content",
+       "type": "string",
+       "required": true,
+       "description": "Record value"
+      },
+      {
+       "path": "[].priority",
+       "type": "integer",
+       "required": false,
+       "description": "MX priority"
+      },
+      {
+       "path": "[].purpose",
+       "type": "string",
+       "required": true,
+       "description": "What the record is for"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "account",
+   "description": "Account billing and credit",
+   "ops": [
+    {
+     "name": "credit",
+     "operation": "checkAccountCredit",
+     "method": "POST",
+     "path": "/api/v0/checkAccountCredit",
+     "summary": "Returns current account credit.",
+     "description": "Returns current account credit, as a BigDecimal string with precision 64.",
+     "destructive": false,
+     "params": [],
+     "returns": [
+      {
+       "path": "credit",
+       "type": "string",
+       "required": true
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
